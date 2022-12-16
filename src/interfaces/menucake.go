@@ -2,14 +2,17 @@ package interfaces
 
 import (
 	"github.com/hendralatumeten/cakestore/src/database/models"
+	"github.com/hendralatumeten/cakestore/src/libs"
 )
 
 type MenuCakeRepo interface {
-	FindAll() (*models.MenuCake, error)
-	// Save(data *models.MenuCake) (*models.MenuCake, error)
+	ListCake() (*models.MenuCakeAll, error)
+	DetailCake(id int) (*models.MenuCakeAll, error)
+	Save(data *models.MenuCake) (*models.MenuCake, error)
 }
 
 type MenuCakeService interface {
-	GetAll() (*models.MenuCake, error)
-	// Add(data *models.MenuCake) *libs.Response
+	List() (*models.MenuCakeAll, error)
+	Detail(id int) (*models.MenuCakeAll, error)
+	Add(data *models.MenuCake) *libs.Response
 }

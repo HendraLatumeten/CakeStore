@@ -9,3 +9,5 @@ type MenuCake struct {
 	Created_at  string `json:"created_at"`
 	Updated_at  string `json:"updated_at"`
 }
+
+type MenuCakeAll []MenuCake

@@ -1,1 +1,1 @@
-drop table if exists menu_tb;
+drop table menu_tb;

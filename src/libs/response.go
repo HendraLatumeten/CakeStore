@@ -42,6 +42,7 @@ func Respone(data interface{}, code int, isError bool) *Response {
 		IsError: isError,
 		Data:    data,
 	}
+
 }
 
 func getStatus(status int) string {
