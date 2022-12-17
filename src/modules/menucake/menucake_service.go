@@ -41,7 +41,7 @@ func (r *menucake_service) Detail(id int) (*models.MenuCakeAll, error) {
 }
 
 func (r *menucake_service) Add(data *models.MenuCake) *libs.Response {
-	data, err := r.repo.Save(data)
+	data, err := r.repo.SaveCake(data)
 	if data != nil {
 		fmt.Println("Add Data Berhasil")
 	}
@@ -50,4 +50,28 @@ func (r *menucake_service) Add(data *models.MenuCake) *libs.Response {
 	}
 
 	return libs.Respone("data berhasil ditambhkan", 200, false)
+}
+
+func (r *menucake_service) Delete(id int) (*models.MenuCake, error) {
+	data, err := r.repo.DeleteCake(id)
+
+	if data != nil {
+		fmt.Println("Data Berhasil Terhapus")
+	}
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (r *menucake_service) Update(id string, data *models.MenuCake) (*models.MenuCake, error) {
+	data, err := r.repo.UpdateCake(id, data)
+
+	if data != nil {
+		fmt.Println("Data Berhasil Terupdate")
+	}
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }

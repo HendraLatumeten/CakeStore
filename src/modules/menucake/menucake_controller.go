@@ -39,13 +39,41 @@ func (re *menucake_ctrl) DetailAll(w http.ResponseWriter, r *http.Request) {
 	libs.Respone(&data, 200, false).Send(w)
 }
 
-func (re *menucake_ctrl) Add(w http.ResponseWriter, r *http.Request) {
+func (re *menucake_ctrl) AddData(w http.ResponseWriter, r *http.Request) {
 	var data models.MenuCake
 
-	err := json.NewDecoder(r.Body).Decode(&data.Title)
+	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		libs.Respone(err.Error(), 401, true)
 	}
 	re.svc.Add(&data).Send(w)
 
+}
+
+func (re *menucake_ctrl) DeleteData(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(params)
+	data, err := re.svc.Delete(id)
+	if err != nil {
+		libs.Respone(err, 400, true)
+		return
+	}
+	libs.Respone(&data, 200, false)
+}
+
+func (re *menucake_ctrl) UpdateData(w http.ResponseWriter, r *http.Request) {
+	var data models.MenuCake
+	id := mux.Vars(r)["id"]
+
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		libs.Respone(err.Error(), 401, true)
+	}
+
+	re.svc.Update(id, &data)
+	if err != nil {
+		libs.Respone(err, 400, true)
+		return
+	}
+	libs.Respone(&data, 200, false)
 }

@@ -8,11 +8,15 @@ import (
 type MenuCakeRepo interface {
 	ListCake() (*models.MenuCakeAll, error)
 	DetailCake(id int) (*models.MenuCakeAll, error)
-	Save(data *models.MenuCake) (*models.MenuCake, error)
+	SaveCake(data *models.MenuCake) (*models.MenuCake, error)
+	DeleteCake(id int) (*models.MenuCake, error)
+	UpdateCake(id string, data *models.MenuCake) (*models.MenuCake, error)
 }
 
 type MenuCakeService interface {
 	List() (*models.MenuCakeAll, error)
 	Detail(id int) (*models.MenuCakeAll, error)
 	Add(data *models.MenuCake) *libs.Response
+	Delete(id int) (*models.MenuCake, error)
+	Update(id string, data *models.MenuCake) (*models.MenuCake, error)
 }

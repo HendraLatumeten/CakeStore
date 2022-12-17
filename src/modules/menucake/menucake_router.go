@@ -18,6 +18,8 @@ func New(rt *mux.Router, db *sql.DB) {
 
 	route.HandleFunc("/list", ctrl.ListAll).Methods("GET")
 	route.HandleFunc("/detail/{id}", ctrl.DetailAll).Methods("GET")
-	route.HandleFunc("/save", ctrl.Add).Methods("POST")
+	route.HandleFunc("/save", ctrl.AddData).Methods("POST")
+	route.HandleFunc("/delete/{id}", ctrl.DeleteData).Methods("DELETE")
+	route.HandleFunc("/update/{id}", ctrl.UpdateData).Methods("PUT")
 
 }
