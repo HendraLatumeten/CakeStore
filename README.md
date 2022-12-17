@@ -70,7 +70,7 @@ Privy Test Cake Store RESTFul API
 #### 3. Get All Data Cake
 
 ```
-  GET /menucake/save
+  POST /menucake/save
 ```
 
 | Parameter | Type     | Description                |
@@ -80,7 +80,7 @@ Privy Test Cake Store RESTFul API
 #### 4. Delete Data Cake
 
 ```
-  GET /menucake/delete/${id}
+  DELETE /menucake/delete/${id}
 ```
 
 | Parameter | Type     | Description                       |
@@ -91,7 +91,7 @@ Privy Test Cake Store RESTFul API
  #### 5. Update Data Cake
 
 ```
-  GET /menucake/Update/${id}
+  PUT /menucake/Update/${id}
 ```
 
 | Parameter | Type     | Description                       |
