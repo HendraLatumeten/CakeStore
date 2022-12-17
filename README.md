@@ -98,4 +98,11 @@ Privy Test Cake Store RESTFul API
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. Id as params update
 
+## Connect with me
+
+ - [Facebook](https://web.facebook.com/hendra.latumeten)
+ 
+ - [Instagram](https://www.instagram.com/hendralatumeten)
+ 
+ - [Linkedin](https://www.linkedin.com/in/hendralatumeten/)
  
