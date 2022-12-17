@@ -15,53 +15,47 @@ type menucake_ctrl struct {
 	svc interfaces.MenuCakeService
 }
 
-func NewCtrl(reps interfaces.MenuCakeService) *menucake_ctrl {
-	return &menucake_ctrl{reps}
+func NewCtrl(ctrl interfaces.MenuCakeService) *menucake_ctrl {
+	return &menucake_ctrl{ctrl}
 }
 
-func (re *menucake_ctrl) ListAll(w http.ResponseWriter, r *http.Request) {
-	data, err := re.svc.List()
+func (c *menucake_ctrl) ListAll(w http.ResponseWriter, r *http.Request) {
+	c.svc.List().Send(w)
+}
+
+func (c *menucake_ctrl) DetailAll(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(params)
 	if err != nil {
-		libs.Respone(err, 400, true)
+		libs.Respone(err, 500, true)
 		return
 	}
-	libs.Respone(&data, 200, false).Send(w)
+	c.svc.Detail(id).Send(w)
+
 }
 
-func (re *menucake_ctrl) DetailAll(w http.ResponseWriter, r *http.Request) {
-	a := mux.Vars(r)["id"]
-	id, err := strconv.Atoi(a)
-	data, err := re.svc.Detail(id)
-	if err != nil {
-		libs.Respone(err, 400, true)
-		return
-	}
-	libs.Respone(&data, 200, false).Send(w)
-}
-
-func (re *menucake_ctrl) AddData(w http.ResponseWriter, r *http.Request) {
+func (c *menucake_ctrl) AddData(w http.ResponseWriter, r *http.Request) {
 	var data models.MenuCake
 
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		libs.Respone(err.Error(), 401, true)
 	}
-	re.svc.Add(&data).Send(w)
+	c.svc.Add(&data)
 
 }
 
-func (re *menucake_ctrl) DeleteData(w http.ResponseWriter, r *http.Request) {
+func (c *menucake_ctrl) DeleteData(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(params)
-	data, err := re.svc.Delete(id)
 	if err != nil {
 		libs.Respone(err, 400, true)
 		return
 	}
-	libs.Respone(&data, 200, false)
+	c.svc.Delete(id).Send(w)
 }
 
-func (re *menucake_ctrl) UpdateData(w http.ResponseWriter, r *http.Request) {
+func (c *menucake_ctrl) UpdateData(w http.ResponseWriter, r *http.Request) {
 	var data models.MenuCake
 	id := mux.Vars(r)["id"]
 
@@ -69,11 +63,6 @@ func (re *menucake_ctrl) UpdateData(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		libs.Respone(err.Error(), 401, true)
 	}
+	c.svc.Update(id, &data).Send(w)
 
-	re.svc.Update(id, &data)
-	if err != nil {
-		libs.Respone(err, 400, true)
-		return
-	}
-	libs.Respone(&data, 200, false)
 }

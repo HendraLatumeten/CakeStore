@@ -1,8 +1,6 @@
 package menucake
 
 import (
-	"fmt"
-
 	"github.com/hendralatumeten/cakestore/src/database/models"
 	"github.com/hendralatumeten/cakestore/src/interfaces"
 	"github.com/hendralatumeten/cakestore/src/libs"
@@ -12,66 +10,52 @@ type menucake_service struct {
 	repo interfaces.MenuCakeRepo
 }
 
-func NewService(reps interfaces.MenuCakeRepo) *menucake_service {
-	return &menucake_service{reps}
+func NewService(repo interfaces.MenuCakeRepo) *menucake_service {
+	return &menucake_service{repo}
 }
 
-func (r *menucake_service) List() (*models.MenuCakeAll, error) {
-	data, err := r.repo.ListCake()
+func (s *menucake_service) List() *libs.Response {
+	data, err := s.repo.ListCake()
 
-	if data != nil {
-		fmt.Println("Get Data Berhasil")
-	}
 	if err != nil {
-		return nil, err
+		return libs.Respone(err.Error(), 400, true)
 	}
-	return data, nil
+	return libs.Respone(data, 200, false)
 }
 
-func (r *menucake_service) Detail(id int) (*models.MenuCakeAll, error) {
-	data, err := r.repo.DetailCake(id)
+func (s *menucake_service) Detail(id int) *libs.Response {
+	data, err := s.repo.DetailCake(id)
 
-	if data != nil {
-		fmt.Println("Get Data Berhasil")
-	}
 	if err != nil {
-		return nil, err
+		return libs.Respone(err.Error(), 400, true)
 	}
-	return data, nil
+	return libs.Respone(data, 200, false)
 }
 
-func (r *menucake_service) Add(data *models.MenuCake) *libs.Response {
-	data, err := r.repo.SaveCake(data)
-	if data != nil {
-		fmt.Println("Add Data Berhasil")
-	}
+func (s *menucake_service) Add(data *models.MenuCake) *libs.Response {
+	data, err := s.repo.SaveCake(data)
+
 	if err != nil {
-		panic(err)
+		return libs.Respone(err.Error(), 400, true)
 	}
 
-	return libs.Respone("data berhasil ditambhkan", 200, false)
+	return libs.Respone(data, 200, false)
 }
 
-func (r *menucake_service) Delete(id int) (*models.MenuCake, error) {
-	data, err := r.repo.DeleteCake(id)
+func (s *menucake_service) Delete(id int) *libs.Response {
+	data, err := s.repo.DeleteCake(id)
 
-	if data != nil {
-		fmt.Println("Data Berhasil Terhapus")
-	}
 	if err != nil {
-		return nil, err
+		return libs.Respone(err.Error(), 400, true)
 	}
-	return data, nil
+	return libs.Respone(data, 200, false)
 }
 
-func (r *menucake_service) Update(id string, data *models.MenuCake) (*models.MenuCake, error) {
-	data, err := r.repo.UpdateCake(id, data)
+func (s *menucake_service) Update(id string, data *models.MenuCake) *libs.Response {
+	data, err := s.repo.UpdateCake(id, data)
 
-	if data != nil {
-		fmt.Println("Data Berhasil Terupdate")
-	}
 	if err != nil {
-		return nil, err
+		return libs.Respone(err.Error(), 400, true)
 	}
-	return data, nil
+	return libs.Respone(data, 200, false)
 }

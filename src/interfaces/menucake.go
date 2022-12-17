@@ -14,9 +14,9 @@ type MenuCakeRepo interface {
 }
 
 type MenuCakeService interface {
-	List() (*models.MenuCakeAll, error)
-	Detail(id int) (*models.MenuCakeAll, error)
+	List() *libs.Response
+	Detail(id int) *libs.Response
 	Add(data *models.MenuCake) *libs.Response
-	Delete(id int) (*models.MenuCake, error)
-	Update(id string, data *models.MenuCake) (*models.MenuCake, error)
+	Delete(id int) *libs.Response
+	Update(id string, data *models.MenuCake) *libs.Response
 }

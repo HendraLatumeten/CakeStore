@@ -2,7 +2,7 @@ package menucake
 
 import (
 	"database/sql"
-	"fmt"
+	"errors"
 	"log"
 
 	"github.com/hendralatumeten/cakestore/src/database/models"
@@ -19,7 +19,7 @@ func NewRepo(db *sql.DB) *menucake_repo {
 func (r *menucake_repo) ListCake() (*models.MenuCakeAll, error) {
 	var data models.MenuCakeAll
 
-	rows, err := r.db.Query("SELECT title FROM menucake_tb ")
+	rows, err := r.db.Query("SELECT * FROM menucake_tb ")
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -28,7 +28,7 @@ func (r *menucake_repo) ListCake() (*models.MenuCakeAll, error) {
 	for rows.Next() {
 		var row models.MenuCake
 
-		err = rows.Scan(&row.Title)
+		err = rows.Scan(&row.ID, &row.Title, &row.Description, &row.Rating, &row.Image, &row.Created_at, &row.Updated_at)
 		if err != nil {
 			panic(err)
 		}
@@ -46,7 +46,7 @@ func (r *menucake_repo) ListCake() (*models.MenuCakeAll, error) {
 func (r *menucake_repo) DetailCake(id int) (*models.MenuCakeAll, error) {
 	var data models.MenuCakeAll
 
-	rows, err := r.db.Query("SELECT id, title, description, rating, image FROM menucake_tb WHERE id= ?", id)
+	rows, err := r.db.Query("SELECT * FROM menucake_tb WHERE id= ?", id)
 	defer rows.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -55,7 +55,7 @@ func (r *menucake_repo) DetailCake(id int) (*models.MenuCakeAll, error) {
 	for rows.Next() {
 		var row models.MenuCake
 
-		err = rows.Scan(&row.ID, &row.Title, &row.Description, &row.Rating, &row.Image)
+		err = rows.Scan(&row.ID, &row.Title, &row.Description, &row.Rating, &row.Image, &row.Created_at, &row.Updated_at)
 		if err != nil {
 			panic(err)
 		}
@@ -95,11 +95,12 @@ func (r *menucake_repo) DeleteCake(id int) (*models.MenuCake, error) {
 		panic(err.Error())
 	}
 
-	affect, err := res.RowsAffected()
+	CheckID, err := res.RowsAffected()
 	if err != nil {
 		panic(err.Error())
+	} else if CheckID == 0 {
+		return nil, errors.New("ID not Found!")
 	}
-	fmt.Println(affect, "rows affected")
 
 	return &data, nil
 }
@@ -113,18 +114,17 @@ func (r *menucake_repo) UpdateCake(id string, data *models.MenuCake) (*models.Me
 	}
 	defer stmt.Close()
 
-	// Update the name of the user with ID 1 to "John Smith"
 	res, err := stmt.Exec(data.Title, data.Description, data.Rating, data.Image, id)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	affect, err := res.RowsAffected()
+	CheckID, err := res.RowsAffected()
 	if err != nil {
 		panic(err.Error())
+	} else if CheckID == 0 {
+		return nil, errors.New("ID not Found!")
 	}
-
-	fmt.Println(affect, "rows affected")
 
 	return &datas, nil
 }
