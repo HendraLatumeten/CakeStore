@@ -8,17 +8,7 @@ import (
 )
 
 func Getconnection() (*sql.DB, error) {
-	// err := godotenv.Load(".env")
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
-
-	// host := os.Getenv("DB_HOST")
-	// user := os.Getenv("DB_USER")
-	// password := os.Getenv("DB_PASSWORD")
-	// dbname := os.Getenv("DB_NAME")
-
-	// dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s", user, password, host, dbname)
+	// db, err := sql.Open("mysql", "root:password@tcp(database:3306)/cakestoreDB")
 	db, err := sql.Open("mysql", "root:@tcp(localhost:3306)/cakestoreDB")
 
 	if err != nil {

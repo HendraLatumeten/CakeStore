@@ -66,3 +66,9 @@ func (c *menucake_ctrl) UpdateData(w http.ResponseWriter, r *http.Request) {
 	c.svc.Update(id, &data).Send(w)
 
 }
+
+func (c *menucake_ctrl) Test(w http.ResponseWriter, r *http.Request) {
+
+	libs.Respone("Hello Cakestore", 200, true).Send(w)
+
+}

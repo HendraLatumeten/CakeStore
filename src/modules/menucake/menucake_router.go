@@ -16,6 +16,7 @@ func New(rt *mux.Router, db *sql.DB) {
 	svc := NewService(repo)
 	ctrl := NewCtrl(svc)
 
+	route.HandleFunc("", ctrl.Test).Methods("GET")
 	route.HandleFunc("/list", ctrl.ListAll).Methods("GET")
 	route.HandleFunc("/detail/{id}", ctrl.DetailAll).Methods("GET")
 	route.HandleFunc("/save", ctrl.AddData).Methods("POST")
